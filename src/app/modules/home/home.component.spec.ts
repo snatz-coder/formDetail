@@ -27,4 +27,9 @@ describe('HomeComponent', () => {
   it('should create the home component', () => {
     expect(component).toBeTruthy();
   });
+
+  // it('should show address', () => {
+  //   const address = fixture.nativeElement.querySelector(['data-test="address']);
+  //   expect(address.querySelector('[data-test="addressFormat"]').innerText).toEqual('Nelson Mandela House,Peckham,London,SE15');
+  // });
 });

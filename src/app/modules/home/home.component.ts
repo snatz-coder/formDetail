@@ -1,19 +1,67 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ContentChild, ElementRef, OnInit, Renderer2, ViewChild} from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UserType } from 'src/app/enums/user-type.enum';
+import { IUserData } from 'src/app/interfaces/user-data.interface';
+import { IUserIdentity } from 'src/app/interfaces/user-indentity.interface';
+import { UserDataService } from 'src/app/services/user-data.service';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit , IUserIdentity{
+  detailsForm!: FormGroup;
+   id!: string;
+   data: any;
+   dataList: IUserData[] = [];
+   loading!: boolean;
+    initials: void;
+  firstName: any;
+  type!: UserType;
+  formDetails: boolean = false;
+  dataArray: IUserData[] = [];
 
-  constructor(
+  constructor( private userData: UserDataService,private renderer: Renderer2
   ) {
+  
   }
 
-  ngOnInit(): void {
-  }
 
-  onSubmit(): void {
+  ngOnInit(){
+    this.formDetails = false;
+    this.detailsForm = new FormGroup({
+      firstName: new FormControl(null, Validators.required),
+      lastName: new FormControl(null, Validators.required),
+      address: new FormGroup({
+        line1: new FormControl(null),
+        line2: new FormControl(null),
+        line3: new FormControl(null),
+        city: new FormControl(null),
+        county: new FormControl(null),
+        postcode: new FormControl(null)
+      })
+    })
+
+    this.userData.getCurrentUser().subscribe(data => {
+      this.loading = true;
+      this.id = data.id;
+      this.userData.getUserData(this.id)
+      .subscribe((res:any ) => {
+        this.loading = false;
+        this.detailsForm.setValue(res);
+      }
+     )
+    })
+   }
+
+  
+  onSubmit(data: any){
+    this.formDetails = true;
+    this.dataList.push(data);
+    console.log(this.dataList)
+    this.initials =  
+     data?.firstName.charAt(0).toUpperCase() +
+     data?.lastName.charAt(0).toUpperCase();
   }
 }
