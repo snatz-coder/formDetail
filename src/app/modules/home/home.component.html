@@ -1,13 +1,14 @@
-<div class="container" >
-  <!-- <div *ngIf="loading" class="loading">
-    <app-spinner></app-spinner>
-  </div> -->
+
+ <div *ngIf="loading" class="loading">
+  <app-spinner></app-spinner>
+</div>
+<div class="container" *ngIf="!loading" >
   <div *ngIf="formDetails">
     <div class="circle">
       <p>{{initials}}</p>
      </div>
      <div class="header" *ngFor="let data of dataList">
-       <p>{{data.firstName}} {{data.lastName}} </p>
+       <p>{{fullName | titlecase}} </p>
        <div data-test="address">
         <p data-test="addressFormat">{{data.address.line1}},{{data.address.city}},{{data.address.county}},{{data.address.postcode}}</p>
        </div>
@@ -19,12 +20,12 @@
     <div class="form-inline">
       <div class="col-md-6  form-group">
         <label for="userName">First name</label>
-        <input type="text" id="firstName"  class="formControl" formControlName="firstName" #fName/>
+        <input type="text" id="firstName"  class="formControl" formControlName="firstName" #fName />
       </div>
     
       <div class="col-md-6  form-group">
         <label for="lastName">Last name</label>
-        <input type="text" id="lastName"  class="formControl" formControlName="lastName" #lName />    
+        <input type="text" id="lastName"  class="formControl" formControlName="lastName"  #lName />    
       </div>
     </div>
 

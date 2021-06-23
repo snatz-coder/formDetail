@@ -12,15 +12,16 @@ import { UserDataService } from 'src/app/services/user-data.service';
 })
 export class HomeComponent implements OnInit , IUserIdentity{
   detailsForm!: FormGroup;
-   id!: string;
-   data: any;
-   dataList: IUserData[] = [];
-   loading!: boolean;
-    initials: void;
+  id!: string;
+  data: any;
+  dataList: IUserData[] = [];
+  loading: boolean = true;
+  initials: void;
   firstName: any;
   type!: UserType;
   formDetails: boolean = false;
   dataArray: IUserData[] = [];
+  fullName: any;
 
   constructor( private userData: UserDataService,private renderer: Renderer2
   ) {
@@ -44,10 +45,10 @@ export class HomeComponent implements OnInit , IUserIdentity{
     })
 
     this.userData.getCurrentUser().subscribe(data => {
-      this.loading = true;
+      this.loading = false;
       this.id = data.id;
       this.userData.getUserData(this.id)
-      .subscribe((res:any ) => {
+      .subscribe((res: any ) => {
         this.loading = false;
         this.detailsForm.setValue(res);
       }
@@ -59,9 +60,11 @@ export class HomeComponent implements OnInit , IUserIdentity{
   onSubmit(data: any){
     this.formDetails = true;
     this.dataList.push(data);
-    console.log(this.dataList)
+    this.fullName = data?.firstName?.toUpperCase() + ' ' + data?.lastName?.toUpperCase();
     this.initials =  
-     data?.firstName.charAt(0).toUpperCase() +
-     data?.lastName.charAt(0).toUpperCase();
+     this.fullName
+    .split(" ")
+    .map((n: any[]) => n[0])
+    .join("");
   }
 }

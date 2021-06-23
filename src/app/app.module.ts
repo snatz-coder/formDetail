@@ -7,6 +7,7 @@ import {ComponentsModule} from './components/components.module';
 import {AppComponent} from './app.component';
 import {UserDataService} from './services/user-data.service';
 
+
 @NgModule({
   declarations: [
     AppComponent
@@ -14,7 +15,7 @@ import {UserDataService} from './services/user-data.service';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    ComponentsModule
+    ComponentsModule, 
   ],
   providers: [
     UserDataService
